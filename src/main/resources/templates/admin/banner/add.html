@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 화면 </title>
+  <style>
+    .detail table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .detail table th, .detail table td {
+      border:solid 1px #000;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .buttons a, .buttons button {
+      border-width: 0;
+      background-color: transparent;
+      text-decoration: underline;
+      font-size: 14px;
+      line-height: 20px;
+      height: 20px;
+      color: #000;
+      cursor: pointer;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function() {
+      $('#submitForm').on('submit', function() {
+
+      });
+    });
+  </script>
+</head>
+<body>
+<div th:replace="/fragments/layout.html :: fragment-admin-body-menu"></div>
+<h1>배너 관리 - 배너 등록</h1>
+
+<div class="detail">
+
+  <form id="submitForm" method="post" enctype="multipart/form-data">
+
+    <table>
+      <tbody>
+      <tr>
+        <th>
+          배너명
+        </th>
+        <td>
+          <input th:value="${detail.getName()}" type="text" name="name" required placeholder="배너 명 입력" />
+        </td>
+      </tr>
+
+      <tr>
+        <th>
+          배너파일
+        </th>
+        <td>
+          <input type="file" name="file" th:required="${#strings.isEmpty(detail.getFilePath())}" />
+        </td>
+      </tr>
+      <tr>
+        <th>
+          링크주소
+        </th>
+        <td>
+          <input th:value="${detail.getLinkPath()}" type="text" name="linkPath" required placeholder="링크 주소" />
+        </td>
+      </tr>
+      <tr>
+        <th>
+          오픈방법
+        </th>
+        <td>
+          <label>
+            <select name="openMethod">
+              <option value="NEW_PAGE">새 페이지</option>
+              <option value="CURRENT_PAGE" th:target="${detail.getOpenMethod() eq 'CURRENT_PAGE'}">현재 페이지</option>
+            </select>
+          </label>
+        </td>
+      </tr>
+
+      <tr>
+        <th>
+          정렬 순서
+        </th>
+        <td>
+          <input th:value="${detail.getOrderNumber()}" type="number" name="orderNumber" required placeholder="정렬 순서" />
+        </td>
+      </tr>
+
+
+      <tr>
+        <th>
+          공개여부
+        </th>
+        <td style="display: flex; align-items: center" >
+          <input th:checked="${detail.isPublic}" type="checkbox" id="checkbox1" name="isPublic" value="true" />
+          <p>공개</p>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="buttons">
+      <button th:if="${editMode}" type="submit"> 배너 수정 하기 </button>
+      <button th:if="${editMode eq false}" type="submit"> 배너 등록 하기 </button>
+      <a href="/admin/banner/lists.do"> 목록 이동 </a>
+    </div>
+
+  </form>
+</div>
+
+</body>
+</html>
